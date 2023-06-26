@@ -1,11 +1,19 @@
-import colorama,cmd
-from enum import IntFlag,auto
+import colorama,cmd,pygame
+from enum import IntFlag,Flag,auto
 from io import BytesIO
 
 from barcode import EAN13
+from barcode import ISBN13,UPCA
 from barcode.writer import SVGWriter
 
 class status(IntFlag):
+    functional = auto()
+    ram = auto()
+    gpu = auto()
+    wifiAntenna = auto()
+    hhd = auto()
+    ssd = auto()
+class Status(Flag):
     functional = auto()
     ram = auto()
     gpu = auto()
@@ -51,7 +59,28 @@ class pc(cmd.Cmd):
             print(error*1000)
             # Or to an actual file:
             with open(name+".svg", "wb") as f:
-                EAN13(str(100000000000+state+(error*1000)), writer=SVGWriter()).write(f)
+                UPCA(str(10000000000+state+(error*1000)), writer=SVGWriter()).write(f)
+            #cairosvg.svg2png(url=name+'.svg', write_to=name+'.png')
+            pygame.image.save(pygame.image.load(name+".svg"),name+".png")
+    
+    def do_get(self, arg):
+        num = int(arg)
+        print(num//1000)
+        print(((num-((num//1000)*1000))//10))
+        print(status((num-((num//1000)*1000))//10))
+        st =status((num-((num//1000)*1000))//10)
+        print(num-((num//1000)*1000)-1)
+        print((num-100000000000)//10000)
+        print(int.to_bytes((num-100000000000)//10000,5,"big").decode("ascii"))
+        if status.functional in st: print(Status.functional)
+        for i in list(status):
+            if i in st: 
+                print(i)
+            else:
+                #print("!",i,i & st)
+                pass
 
+            
+pygame.init()
 
 pc().cmdloop()
