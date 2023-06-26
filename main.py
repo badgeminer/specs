@@ -3,7 +3,7 @@ from enum import IntFlag,Flag,auto
 from io import BytesIO
 
 from barcode import EAN13
-from barcode import ISBN13,UPCA
+from barcode import ISBN13,UPCA,Code128
 from barcode.writer import SVGWriter
 
 class status(IntFlag):
@@ -59,7 +59,7 @@ class pc(cmd.Cmd):
             print(error*1000)
             # Or to an actual file:
             with open(name+".svg", "wb") as f:
-                UPCA(str(10000000000+state+(error*1000)), writer=SVGWriter()).write(f)
+                Code128(str(10000000000+state+(error*1000)), writer=SVGWriter()).write(f)
             #cairosvg.svg2png(url=name+'.svg', write_to=name+'.png')
             pygame.image.save(pygame.image.load(name+".svg"),name+".png")
     
