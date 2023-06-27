@@ -58,7 +58,7 @@ class pc(cmd.Cmd):
             print(int(state))
             print(error*1000)
             # Or to an actual file:
-            with open(name+".svg", "wb") as f:
+            with open("gen\\"+name+".svg", "wb") as f:
                 Code128(str(10000000000+state+(error*1000)), writer=SVGWriter()).write(f)
             #cairosvg.svg2png(url=name+'.svg', write_to=name+'.png')
             #pygame.image.save(pygame.image.load(name+".svg"),name+".png")

@@ -6,10 +6,10 @@ from barcode import Code39,Code128,ISSN,PZN
 from barcode.writer import SVGWriter,ImageWriter
 from svglib.svglib import svg2rlg
 
-with open("ISSN.png", "wb") as f:
-    ISSN(str(10000000000), writer=ImageWriter()).write(f)
-with open("PZN.png", "wb") as f:
-    PZN(str(10000000000), writer=ImageWriter()).write(f)
+from os import listdir
+from os.path import isfile, join
+onlyfiles = [join("gen\\", f) for f in listdir("gen\\") if isfile(join("gen\\", f))]
+
 
 def add_image(image_path):
     my_canvas = canvas.Canvas("canvas_image.pdf")
@@ -27,9 +27,8 @@ def add_image(image_path):
         
     my_canvas.save()
 
-allI= ["1.svg","2.svg","3.svg","4.svg","5.svg",]
-for i in range(7):
-    allI.append("wSSD.svg")
+allI= onlyfiles
+
 
 if __name__ == '__main__':
     image_path = 'snakehead.jpg'
