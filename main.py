@@ -1,4 +1,4 @@
-import colorama,cmd,pygame
+import colorama,cmd
 from enum import IntFlag,Flag,auto
 from io import BytesIO
 
@@ -61,9 +61,10 @@ class pc(cmd.Cmd):
             with open(name+".svg", "wb") as f:
                 Code128(str(10000000000+state+(error*1000)), writer=SVGWriter()).write(f)
             #cairosvg.svg2png(url=name+'.svg', write_to=name+'.png')
-            pygame.image.save(pygame.image.load(name+".svg"),name+".png")
+            #pygame.image.save(pygame.image.load(name+".svg"),name+".png")
     
     def do_get(self, arg):
+        """get then scan barcode"""
         num = int(arg)
         print(num//1000)
         print(((num-((num//1000)*1000))//10))
@@ -79,8 +80,19 @@ class pc(cmd.Cmd):
             else:
                 #print("!",i,i & st)
                 pass
+    def do_scan(self, arg):
+        """repeatedly scan barcodes
+        Q to quit"""
+        i = ""
+        while True:
+            i = input("Scan>")
+            if "q" in i.lower(): break
+            try:
+                self.do_get(i)
+            except:
+                print("err reading")
 
             
-pygame.init()
+#pygame.init()
 
 pc().cmdloop()

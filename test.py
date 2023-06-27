@@ -15,6 +15,7 @@ def add_image(image_path):
     my_canvas = canvas.Canvas("canvas_image.pdf")
     my_canvas.setFont('Helvetica', 12)
     x = 0
+    my_canvas.drawString(180*10, 3, "SpecsScan")
     for i,p in enumerate(allI):
         if ((i%9)+(x*9)) != i:
             x += 1
