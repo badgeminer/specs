@@ -12,7 +12,7 @@ class status(IntFlag):
     gpu = auto()
     wifiAntenna = auto()
     hhd = auto()
-    ssd = auto()
+    ssd = auto() 
 class Status(Flag):
     functional = auto()
     ram = auto()
@@ -58,11 +58,14 @@ class pc(cmd.Cmd):
             print(int(state))
             print(error*1000)
             # Or to an actual file:
-            with open("gen\\"+name+".svg", "wb") as f:
-                Code128(str(10000000000+state+(error*1000)), writer=SVGWriter()).write(f)
+            self.gen(name,state,error)
             #cairosvg.svg2png(url=name+'.svg', write_to=name+'.png')
             #pygame.image.save(pygame.image.load(name+".svg"),name+".png")
-    
+    def gen(self,name,state,error):
+        with open("gen\\"+name+".svg", "wb") as f:
+                Code128(str(10000000000+state+(error*1000)), writer=SVGWriter()).write(f)
+
+
     def do_get(self, arg):
         """get then scan barcode"""
         num = int(arg)
@@ -91,6 +94,22 @@ class pc(cmd.Cmd):
                 self.do_get(i)
             except:
                 print("err reading")
+    def do_dupe(self,arg):
+        """repeatedly scan barcodes
+        Q to quit"""
+        i = ""
+        while True:
+            i = input("Dupe>")
+            if "q" in i.lower(): break
+            try:
+                num = int(i)
+                with open("gen\\"+input("name>")+".svg", "wb") as f:
+                    Code128(str(num), writer=SVGWriter()).write(f)
+            except:pass
+
+    def do_build(self,arg):  
+        import test
+        test.add_image("")
 
             
 #pygame.init()
